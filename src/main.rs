@@ -52,15 +52,27 @@ let mut img_out = StillImage::from_preload(
     );
     loop {
         clear_background(WHITE);
-        //draw_grid(50.0, BROWN);
+      //  draw_grid(50.0, BROWN);
         if btn_name.click() {
             lbl_out.set_text("Mathew Dusome is HERE");
             img_out.set_preload(tm.get_preload("assets/maze.png").unwrap());
         }
-        if btn_age.click() {}
-        if btn_school.click() {}
-        if btn_food.click() {}
-        if btn_sport.click() {}
+        if btn_age.click() {
+            lbl_out.set_text("Mathew Dusome is too old");
+            img_out.set_preload(tm.get_preload("assets/happy.png").unwrap());
+        }
+        if btn_school.click() {
+            lbl_out.set_text("Mathew Dusome goes to BHS");
+            img_out.set_preload(tm.get_preload("assets/maze.png").unwrap());
+        }
+        if btn_food.click() {
+            lbl_out.set_text("Mathew Dusome likes pizza");
+            img_out.set_preload(tm.get_preload("assets/happy.png").unwrap());
+        }
+        if btn_sport.click() {
+            lbl_out.set_text("Mathew Dusome likes rugby");
+            img_out.set_preload(tm.get_preload("assets/maze.png").unwrap());
+        }
         if btn_exit.click() {
             break;
         }
