@@ -2,16 +2,23 @@
         <html lang="en">
         <head>
             <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
             <title>hello_11u</title>
             <style>
-                 /* === MODE 1: Responsive fullscreen canvas (default) === */
-        html,body,canvas {
+        html, body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
+            background: black;
+        }
+
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            touch-action: none;
             background: black;
         }
 
@@ -40,6 +47,26 @@
         </head>
         <body>
             <canvas id="glcanvas" tabindex='1'></canvas>
+            <script>
+                const canvas = document.getElementById("glcanvas");
+
+                function resizeCanvasToViewport() {
+                    const dpr = Math.max(1, window.devicePixelRatio || 1);
+                    const width = Math.floor(window.innerWidth);
+                    const height = Math.floor(window.innerHeight);
+
+                    canvas.style.width = `${width}px`;
+                    canvas.style.height = `${height}px`;
+
+                    // Keep WebGL backing buffer in sync with CSS pixels on high DPI screens.
+                    canvas.width = Math.floor(width * dpr);
+                    canvas.height = Math.floor(height * dpr);
+                }
+
+                window.addEventListener("resize", resizeCanvasToViewport, { passive: true });
+                window.addEventListener("orientationchange", resizeCanvasToViewport, { passive: true });
+                resizeCanvasToViewport();
+            </script>
             <script src="https://cdn.jsdelivr.net/gh/Mathew-D/rust-objects@main/mq_js_bundle.js"></script>
             <script src="https://cdn.jsdelivr.net/gh/Mathew-D/rust-objects@main/dusome_bundle.js"></script>
             <script>load("pkg/hello_11u.wasm");</script>
