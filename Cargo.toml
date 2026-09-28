@@ -9,4 +9,4 @@ image = "0.25.10"
 
 [features]
 scale = []
-default = []
+default = ["scale"]

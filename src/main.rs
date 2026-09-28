@@ -7,13 +7,13 @@ Program Details: <Program Description Here>
 mod ui;
 mod utils;
 
-use crate::ui::grid::draw_grid;
+//use crate::ui::grid::draw_grid;
 use crate::ui::text_button::TextButton;
  use crate::ui::label::Label;
  use crate::ui::still_image::StillImage;
 use crate::utils::preload_image::TextureManager;
 use macroquad::prelude::*;
-
+use crate::utils::scale::use_virtual_resolution;
 /// Set up window settings before the app runs
 fn window_conf() -> Conf {
     Conf {
@@ -51,6 +51,7 @@ let mut img_out = StillImage::from_preload(
         1.0,
     );
     loop {
+        use_virtual_resolution(1250.0, 768.0);
         clear_background(WHITE);
       //  draw_grid(50.0, BROWN);
         if btn_name.click() {
@@ -72,10 +73,13 @@ let mut img_out = StillImage::from_preload(
         if btn_sport.click() {
             lbl_out.set_text("Mathew Dusome likes rugby");
             img_out.set_preload(tm.get_preload("assets/maze.png").unwrap());
+            
+            
         }
         if btn_exit.click() {
             break;
         }
+        
         lbl_out.draw();
         img_out.draw();
         next_frame().await;

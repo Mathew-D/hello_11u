@@ -12,3 +12,4 @@ pub mod grid;
 */
 // Add modules below
 pub mod preload_image;
+pub mod scale;
