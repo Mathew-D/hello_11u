@@ -55,24 +55,28 @@ pub fn use_virtual_resolution(virtual_width: f32, virtual_height: f32) {
     VIRTUAL_RESOLUTION.with(|res| {
         *res.borrow_mut() = (virtual_width, virtual_height);
     });
+    
+    let screen_aspect = screen_width() / screen_height();
+    let virtual_aspect = virtual_width / virtual_height;
 
-    let sw = screen_width();
-    let sh = screen_height();
-    let scale = (sw / virtual_width).min(sh / virtual_height);
-
-    let viewport_width = (virtual_width * scale).round() as i32;
-    let viewport_height = (virtual_height * scale).round() as i32;
-    let viewport_x = ((sw - virtual_width * scale) / 2.0).round() as i32;
-    let viewport_y = ((sh - virtual_height * scale) / 2.0).round() as i32;
+    let (cam_width, cam_height) = if screen_aspect > virtual_aspect {
+        // Screen is wider — match height
+        let height = virtual_height;
+        let width = height * screen_aspect;
+        (width, height)
+    } else {
+        // Screen is taller — match width
+        let width = virtual_width;
+        let height = width / screen_aspect;
+        (width, height)
+    };
 
     CAMERA.with(|camera| {
         let mut camera = camera.borrow_mut();
 
         *camera = Camera2D {
-            // Keep a fixed virtual coordinate system and fit it into a centered viewport.
-            zoom: vec2(2.0 / virtual_width, 2.0 / virtual_height),
+            zoom: vec2(2.0 / cam_width, 2.0 / cam_height),
             target: vec2(virtual_width / 2.0, virtual_height / 2.0),
-            viewport: Some((viewport_x, viewport_y, viewport_width, viewport_height)),
             ..Default::default()
         };
 
